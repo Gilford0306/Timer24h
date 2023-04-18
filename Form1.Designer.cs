@@ -96,7 +96,7 @@ namespace Timer24h
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(535, 60);
+            this.label1.Location = new System.Drawing.Point(600, button1.Location.Y - 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 16);
             this.label1.TabIndex = 3;
@@ -233,7 +233,7 @@ namespace Timer24h
         {
             timer.Stop();
             timerStrob.Stop();
-            this.BackColor= default;
+            this.BackColor = default;
             this.trackBar3.Enabled = true;
             this.trackBar2.Enabled = true;
             this.trackBar1.Enabled = true;
@@ -242,28 +242,34 @@ namespace Timer24h
 
         private void button1_Click(object sender, EventArgs e)
         {
-                i = (trackBar1.Value * 3600) + (trackBar2.Value * 60) + trackBar3.Value;
+            i = (trackBar1.Value * 3600) + (trackBar2.Value * 60) + trackBar3.Value;
             if (i == 0)
             {
                 MessageBox.Show("Введи нужное количество времени ");
                 return;
             }
             timer.Start();
-                this.trackBar3.Enabled = false;
-                this.trackBar2.Enabled = false;
-                this.trackBar1.Enabled = false;
-                this.button1.Enabled = false;
-                     
+            this.trackBar3.Enabled = false;
+            this.trackBar2.Enabled = false;
+            this.trackBar1.Enabled = false;
+            this.button1.Enabled = false;
+
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
 
-            label1.Text = $"Осталось - " +(--i).ToString()+ " сек.";
+
+            h = i / 3600;
+            m = (i - (h * 3600)) / 60;
+            s = (i - ((h * 3600) + (m * 60)));
+            --i;
+            label1.Text = $"\nОсталось\n" + (h).ToString() + " ч.\n" + (m).ToString() + " мин.\n" + (s).ToString() + " сек.";
             if (i == 0)
             {
                 timer.Stop();
-                timerStrob.Start(); 
+                timerStrob.Start();
+                this.label1.Location = new System.Drawing.Point(580, button1.Location.Y - 105);
                 label1.Text = $"Время вышло";
             }
             else
@@ -282,8 +288,11 @@ namespace Timer24h
         Label label2;
         Label label3;
         Label label4;
-        int i ;
+        int i;
         int t = 4;
+        int h = 0;
+        int m = 0;
+        int s = 0;
         Button button1;
         Button button2;
         ProgressBar progressBar1;
